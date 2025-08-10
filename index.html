@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Totem - Mais Saúde e Laboratório Fortis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        :root {
+            --primary: #4e86d4;
+            --primary-light: #6a9cdf;
+            --primary-dark: #3a6bb0;
+            --secondary: #1bbaff;
+            --accent: #f1b501;
+            --success: #62c516;
+            --error: #ff6a6a;
+            --purple: #4b3fc5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            /* margin-bottom: 40px; */
+            opacity: 0;
+            transform: translateY(-50px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent), #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .lab-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .fortis-highlight {
+            color: var(--secondary);
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(27, 186, 255, 0.5);
+            display: inline-block;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(27, 186, 255, 0.5), 0 0 30px rgba(27, 186, 255, 0.3);
+            }
+
+            to {
+                text-shadow: 0 0 30px rgba(27, 186, 255, 0.8), 0 0 40px rgba(27, 186, 255, 0.5);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 5px;
+        }
+
+        .exit-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--error), #ff4757);
+            border: none;
+            padding: 20px 25px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 106, 106, 0.3);
+            z-index: 1001;
+        }
+
+        .exit-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 106, 106, 0.5);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .welcome-message {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: scale(0.8);
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            display: none !important;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            min-width: 100% !important;
+            opacity: 0;
+            transform: translateY(30px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px !important;
+        }
+
+        .cpf-input {
+            width: 100%;
+            padding: 25px;
+            font-size: 2rem;
+            border: 3px solid var(--primary-light);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--primary-dark);
+            letter-spacing: 3px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cpf-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(241, 181, 1, 0.3);
+            outline: none;
+        }
+
+        .virtual-keyboard {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--primary-light);
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .key-btn {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .key-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .key-btn:active {
+            transform: translateY(0);
+        }
+
+        .key-btn.delete {
+            background: linear-gradient(135deg, var(--error), #ff4757);
+            width: 120px;
+        }
+
+        .key-btn.close {
+            background: linear-gradient(135deg, var(--purple), #6c5ce7);
+            width: 120px;
+        }
+
+        .btn {
+            padding: 25px 50px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 15px;
+            min-width: 250px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #ffcd39);
+            color: var(--primary-dark);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #7ed321);
+            color: white;
+        }
+
+        .btn-error {
+            background: linear-gradient(135deg, var(--error), #ff4757);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #74b9ff);
+            color: white;
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, var(--purple), #6c5ce7);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            color: var(--primary-dark);
+            min-width: 500px;
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(78, 134, 212, 0.2);
+            border-top: 6px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 25px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #fila-info {
+            min-width: 900px !important;
+        }
+
+        .patient-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 25px 10px;
+            text-align: left;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            /* min-width: 100% !important; */
+        }
+
+        .patient-info h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .patient-field {
+            margin: 0;
+            font-size: 1.2rem;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .patient-field strong {
+            color: var(--accent);
+        }
+
+        .service-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            /* margin-top: 40px; */
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .service-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: var(--accent);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-card h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        .service-card p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .service-card.fortis {
+            border: 3px solid var(--secondary);
+            background: linear-gradient(135deg, rgba(27, 186, 255, 0.15), rgba(27, 186, 255, 0.05));
+        }
+
+        .service-card.fortis h3 {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(27, 186, 255, 0.3);
+        }
+
+        .menu-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            /* margin-top: 40px; */
+            width: 100%;
+            /* max-width: 1200px; */
+        }
+
+        .menu-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .menu-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            color: var(--accent);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .menu-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .appointment-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 6px solid var(--accent);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .queue-position {
+            font-size: 4rem;
+            color: var(--accent);
+            font-weight: 900;
+            text-align: center;
+            margin: 30px 0;
+            text-shadow: 0 0 20px rgba(241, 181, 1, 0.5);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, rgba(255, 106, 106, 0.3), rgba(255, 106, 106, 0.1));
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 25px 0;
+            text-align: center;
+            border: 3px solid var(--error);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Container para alinhar o botão "Voltar" com o cabeçalho */
+        .header-container {
+            position: relative;
+            /* Define o contexto de posicionamento para os filhos */
+            width: 100%;
+            margin-bottom: 40px;
+            /* Adicione a margem aqui para controlar o espaçamento com o conteúdo abaixo */
+            max-width: 1400px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .back-btn {
+            position: absolute;
+            /* Posiciona o botão em relação ao .header-container */
+            top: 50%;
+            /* Alinha verticalmente no meio do contêiner */
+            left: 0;
+            transform: translateY(-50%);
+            /* Ajusta para centralizar o botão */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 20px 25px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-50%) translateX(-5px);
+            /* Ajusta para manter o alinhamento vertical */
+        }
+
+        #patient-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* Cria duas colunas de largura igual */
+            gap: 20px;
+            /* Adiciona um espaço de 20px entre os campos */
+            margin-top: 20px;
+        }
+
+        .patient-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 0px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            min-width: 800px !important;
+        }
+
+        #patient-header-princal {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            min-width: 800px !important;
+        }
+
+        .patient-header h2 {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .patient-header p {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .service-options {
+                grid-template-columns: 1fr;
+            }
+
+            .input-section {
+                min-width: 90%;
+                padding: 30px;
+            }
+
+            .logo {
+                font-size: 3rem;
+            }
+
+            .welcome-message {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="exit-btn" onclick="confirmarSaida()">✖</button>
+
+    <div class="floating-elements">
+        <div class="floating-circle"
+            style="width: 120px; height: 120px; top: 10%; left: 10%; background: radial-gradient(circle, rgba(241, 181, 1, 0.2), transparent);">
+        </div>
+        <div class="floating-circle"
+            style="width: 180px; height: 180px; top: 20%; right: 15%; background: radial-gradient(circle, rgba(27, 186, 255, 0.15), transparent);">
+        </div>
+        <div class="floating-circle"
+            style="width: 100px; height: 100px; bottom: 20%; left: 20%; background: radial-gradient(circle, rgba(98, 197, 22, 0.2), transparent);">
+        </div>
+        <div class="floating-circle"
+            style="width: 150px; height: 150px; bottom: 15%; right: 10%; background: radial-gradient(circle, rgba(75, 63, 197, 0.15), transparent);">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">MAIS SAÚDE</div>
+            <div class="lab-name">& LABORATÓRIO <span class="fortis-highlight">FORTIS</span></div>
+            <div class="subtitle">Sistema de Auto-Atendimento Inteligente</div>
+        </div>
+
+        <!-- Tela Inicial -->
+        <div id="initial-screen" class="main-content">
+            <div class="welcome-message">
+                Bem-vindo ao nosso<br>Auto-Atendimento Digital
+            </div>
+            <div class="input-section">
+                <h2 style="margin-bottom: 30px; color: var(--accent); font-size: 2rem;">Digite seu CPF para iniciar</h2>
+                <input type="text" id="cpf-input" class="cpf-input" placeholder="000.000.000-00" maxlength="14"
+                    readonly>
+
+                <div id="virtual-keyboard" class="virtual-keyboard">
+                    <div class="keyboard-row">
+                        <button class="key-btn" onclick="addDigit('1')">1</button>
+                        <button class="key-btn" onclick="addDigit('2')">2</button>
+                        <button class="key-btn" onclick="addDigit('3')">3</button>
+                        <button class="key-btn" onclick="addDigit('4')">4</button>
+                        <button class="key-btn" onclick="addDigit('5')">5</button>
+                        <button class="key-btn" onclick="addDigit('6')">6</button>
+                        <button class="key-btn" onclick="addDigit('7')">7</button>
+                        <button class="key-btn" onclick="addDigit('8')">8</button>
+                        <button class="key-btn" onclick="addDigit('9')">9</button>
+                    </div>
+                    <div class="keyboard-row">
+                        <button class="key-btn delete" onclick="deleteDigit()">⌫</button>
+                        <button class="key-btn" onclick="addDigit('0')">0</button>
+                        <button class="key-btn close" onclick="closeKeyboard()">✓</button>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" onclick="iniciarAtendimento()">INICIAR ATENDIMENTO</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmação de Dados -->
+        <div id="patient-confirmation" class="main-content hidden">
+            <div class="patient-info">
+                <h3>Confirme seus dados</h3>
+                <div id="patient-details"></div>
+            </div>
+            <div>
+                <button class="btn btn-success" onclick="confirmarDados()">CONFIRMAR</button>
+                <button class="btn btn-error" onclick="cancelarConfirmacao()">CANCELAR</button>
+            </div>
+        </div>
+
+        <!-- Seleção de Serviços -->
+        <div id="service-selection" class="main-content hidden">
+            <div class="patient-header" id="patient-header-princal">
+                <h2 id="welcome-patient"></h2>
+                <p>Escolha o tipo de atendimento desejado:</p>
+            </div>
+            <div class="service-options">
+                <div class="service-card" onclick="selecionarServico('mais-saude')">
+                    <h3>MAIS SAÚDE</h3>
+                    <p>UNIDADE POÇO</p>
+                </div>
+                <div class="service-card fortis" onclick="selecionarServico('laboratorio')">
+                    <h3>LABORATÓRIO</h3>
+                    <p class="fortis-highlight">FORTIS</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mais Saúde -->
+        <div id="mais-saude-menu" class="main-content hidden">
+            <div class="header-container">
+                <button class="back-btn" onclick="voltarSelecaoServico()">← Voltar</button>
+                <div class="patient-header">
+                    <h2 id="patient-name-header"></h2>
+                    <p>MAIS SAÚDE - UNIDADE POÇO</p>
+                </div>
+            </div>
+            <div class="menu-options">
+                <div class="menu-card" onclick="verAgendamentos()">
+                    <h3>📅 MEUS AGENDAMENTOS</h3>
+                    <p>Visualizar e confirmar presença</p>
+                </div>
+                <div class="menu-card" onclick="verFilaEspera()">
+                    <h3>⏱️ FILA DE ESPERA</h3>
+                    <p>Acompanhar sua posição</p>
+                </div>
+                <div class="menu-card" onclick="agendarRetorno()">
+                    <h3>🔄 AGENDAR RETORNO</h3>
+                    <p>Agende seu próximo atendimento</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Laboratório -->
+        <div id="laboratorio-menu" class="main-content hidden">
+            <div class="header-container">
+                <button class="back-btn" onclick="voltarSelecaoServico()">← Voltar</button>
+                <div class="patient-header">
+                    <h2 id="patient-name-lab"></h2>
+                    <p>LABORATÓRIO <span class="fortis-highlight">FORTIS</span></p>
+                </div>
+            </div>
+            <div class="menu-options">
+                <div class="menu-card" onclick="verAgendamentosLab()">
+                    <h3>🧪 MEUS AGENDAMENTOS</h3>
+                    <p>Exames laboratoriais agendados</p>
+                </div>
+                <div class="menu-card" onclick="verFilaEsperaLab()">
+                    <h3>⏱️ FILA DE ESPERA</h3>
+                    <p>Sua posição na fila</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agendamentos -->
+        <div id="agendamentos-screen" class="main-content hidden">
+            <button class="back-btn" onclick="voltarMenuPrincipal()">← Voltar</button>
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--accent); font-size: 2.5rem;">Meus
+                Agendamentos</h2>
+            <div id="agendamentos-list"></div>
+        </div>
+
+        <!-- Fila de Espera -->
+        <div id="fila-espera-screen" class="main-content hidden">
+            <button class="back-btn" onclick="voltarMenuPrincipal()">← Voltar</button>
+            <h2 style="text-align: center; margin-top: 30px; color: var(--secondary); font-size: 2.5rem;">Fila de Espera
+            </h2>
+            <div id="fila-info"></div>
+        </div>
+
+        <!-- Notificar Recepção -->
+        <div id="notificar-recepcao" class="main-content hidden">
+            <div class="input-section">
+                <h2 style="margin-bottom: 30px; color: var(--accent);">Tipo de Atendimento</h2>
+                <p style="margin-bottom: 30px; font-size: 1.3rem;">Selecione o tipo de atendimento desejado:</p>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <button class="btn btn-primary" onclick="notificarRecepcao('consulta')">🩺 CONSULTA</button>
+                    <button class="btn btn-secondary" onclick="notificarRecepcao('terapias')">💆
+                        SESSÕES/TERAPIAS</button>
+                    <button class="btn btn-purple" onclick="notificarRecepcao('exames')">📋 EXAMES DE IMAGEM</button>
+                </div>
+                <div style="margin-top: 30px;">
+                    <button class="btn btn-error" onclick="voltarMenuPrincipal()">CANCELAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Loading -->
+    <div id="loading-modal" class="modal">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <h3 id="loading-text">Conectando ao servidor...</h3>
+            <p id="loading-subtitle">Aguarde um momento</p>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Saída -->
+    <div id="exit-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: var(--error); margin-bottom: 20px; font-size: 2rem;">⚠️ Confirmar Saída</h3>
+            <p style="margin-bottom: 30px; font-size: 1.3rem; color: var(--primary-dark);">Tem certeza que deseja sair
+                do atendimento?</p>
+            <div>
+                <button class="btn btn-error" onclick="sairDoSistema()">SIM, SAIR</button>
+                <button class="btn btn-secondary" onclick="fecharModalSaida()">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados simulados
+        const pacientesDB = {
+            '12345678901': {
+                nome: 'João Silva Santos',
+                dataNascimento: '15/03/1985',
+                cpf: '123.456.789-01',
+                nomeMae: 'Maria Silva Santos',
+                carteirinha: 'CONV12345',
+                genero: 'Masculino',
+                agendamentos: [
+                    {
+                        unidade: 'Mais Saúde - Poço',
+                        profissional: 'Dr. Carlos Mendes',
+                        especialidade: 'Cardiologia',
+                        horario: '14:30',
+                        tipo: 'Hora Marcada',
+                        procedimento: 'Consulta Cardiológica'
+                    }
+                ],
+                agendamentosLab: [
+                    {
+                        tipo: 'Hemograma Completo',
+                        horario: '08:00',
+                        jejum: 'Necessário'
+                    }
+                ]
+            }
+        };
+
+        let currentPatient = null;
+        let currentService = null;
+        let cpfDigits = '';
+
+        // Teclado Virtual
+        function showKeyboard() {
+            const keyboard = document.getElementById('virtual-keyboard');
+            keyboard.style.display = 'block';
+
+            anime({
+                targets: '#virtual-keyboard',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 500,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        function closeKeyboard() {
+            anime({
+                targets: '#virtual-keyboard',
+                opacity: [1, 0],
+                translateY: [0, 30],
+                duration: 300,
+                easing: 'easeInCubic',
+                complete: () => {
+                    document.getElementById('virtual-keyboard').style.display = 'none';
+                }
+            });
+        }
+
+        function addDigit(digit) {
+            if (cpfDigits.length < 11) {
+                cpfDigits += digit;
+                updateCPFDisplay();
+
+                // Animação do botão
+                anime({
+                    targets: event.target,
+                    scale: [1, 1.2, 1],
+                    background: ['#4e86d4', '#62c516', '#4e86d4'],
+                    duration: 300,
+                    easing: 'easeOutBack'
+                });
+            }
+        }
+
+        function deleteDigit() {
+            if (cpfDigits.length > 0) {
+                cpfDigits = cpfDigits.slice(0, -1);
+                updateCPFDisplay();
+
+                // Animação do botão delete
+                anime({
+                    targets: event.target,
+                    scale: [1, 1.2, 1],
+                    background: ['#ff6a6a', '#ff4757', '#ff6a6a'],
+                    duration: 300,
+                    easing: 'easeOutBack'
+                });
+            }
+        }
+
+        function updateCPFDisplay() {
+            let formatted = cpfDigits.replace(/(\d{3})(\d)/, '$1.$2');
+            formatted = formatted.replace(/(\d{3})(\d)/, '$1.$2');
+            formatted = formatted.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            document.getElementById('cpf-input').value = formatted;
+        }
+
+        // Event listener para mostrar teclado ao clicar no input
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('cpf-input').addEventListener('click', function () {
+                showKeyboard();
+            });
+        });
+
+        // Função de confirmação de saída
+        function confirmarSaida() {
+            document.getElementById('exit-modal').style.display = 'flex';
+
+            anime({
+                targets: '#exit-modal .modal-content',
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 400,
+                easing: 'easeOutBack'
+            });
+        }
+
+        function fecharModalSaida() {
+            anime({
+                targets: '#exit-modal .modal-content',
+                opacity: [1, 0],
+                scale: [1, 0.8],
+                duration: 300,
+                easing: 'easeInBack',
+                complete: () => {
+                    document.getElementById('exit-modal').style.display = 'none';
+                }
+            });
+        }
+
+        function sairDoSistema() {
+            // Resetar tudo
+            currentPatient = null;
+            currentService = null;
+            cpfDigits = '';
+            document.getElementById('cpf-input').value = '';
+
+            // Esconder todos os screens
+            document.querySelectorAll('.main-content').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+
+            // Mostrar tela inicial
+            document.getElementById('initial-screen').classList.remove('hidden');
+            document.getElementById('exit-modal').style.display = 'none';
+
+            // Animação de reinicialização
+            anime({
+                targets: '#initial-screen',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        // Animações iniciais
+        window.addEventListener('load', function () {
+            anime({
+                targets: '.header',
+                opacity: [0, 1],
+                translateY: [-50, 0],
+                duration: 1200,
+                delay: 300,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.main-content',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 1000,
+                delay: 600,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.welcome-message',
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 1200,
+                delay: 900,
+                easing: 'easeOutBack'
+            });
+
+            anime({
+                targets: '.input-section',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 1000,
+                delay: 1200,
+                easing: 'easeOutCubic'
+            });
+
+            // Animação dos elementos flutuantes
+            anime({
+                targets: '.floating-circle',
+                translateY: [0, -30, 0],
+                duration: 6000,
+                loop: true,
+                delay: anime.stagger(1000),
+                easing: 'easeInOutSine'
+            });
+
+            anime({
+                targets: '.floating-circle',
+                rotate: [0, 360],
+                duration: 20000,
+                loop: true,
+                easing: 'linear'
+            });
+        });
+
+        function showLoading(steps) {
+            const modal = document.getElementById('loading-modal');
+            modal.style.display = 'flex';
+
+            anime({
+                targets: '#loading-modal .modal-content',
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 400,
+                easing: 'easeOutBack'
+            });
+
+            let stepIndex = 0;
+            const loadingText = document.getElementById('loading-text');
+
+            function nextStep() {
+                if (stepIndex < steps.length) {
+                    loadingText.textContent = steps[stepIndex];
+
+                    // Animação do texto
+                    anime({
+                        targets: '#loading-text',
+                        scale: [0.9, 1],
+                        color: ['#4e86d4', '#f1b501', '#4e86d4'],
+                        duration: 800,
+                        easing: 'easeOutBack'
+                    });
+
+                    stepIndex++;
+                    setTimeout(nextStep, 1800);
+                } else {
+                    hideLoading();
+                }
+            }
+
+            nextStep();
+        }
+
+        function hideLoading() {
+            anime({
+                targets: '#loading-modal .modal-content',
+                opacity: [1, 0],
+                scale: [1, 0.8],
+                duration: 300,
+                easing: 'easeInBack',
+                complete: () => {
+                    document.getElementById('loading-modal').style.display = 'none';
+                }
+            });
+        }
+
+        function iniciarAtendimento() {
+            if (cpfDigits.length !== 11) {
+                // Animação de erro no input
+                anime({
+                    targets: '#cpf-input',
+                    translateX: [-10, 10, -10, 10, 0],
+                    borderColor: ['#6a9cdf', '#ff6a6a', '#6a9cdf'],
+                    duration: 500,
+                    easing: 'easeOutBack'
+                });
+                return;
+            }
+
+            closeKeyboard();
+
+            const steps = [
+                '🔗 Conectando ao servidor...',
+                '🔍 Buscando paciente...',
+                '✅ Validando dados...',
+                '📋 Carregando informações...'
+            ];
+
+            showLoading(steps);
+
+            setTimeout(() => {
+                const patient = pacientesDB[cpfDigits];
+
+                if (patient) {
+                    currentPatient = patient;
+                    mostrarConfirmacaoDados();
+                } else {
+                    hideLoading();
+                    mostrarErroPaciente();
+                }
+            }, 7000);
+        }
+
+        function mostrarErroPaciente() {
+            const inputSection = document.querySelector('.input-section');
+
+            // Remover erro anterior se existir
+            const existingError = inputSection.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `
+                <h3>❌ Paciente não encontrado</h3>
+                <p>CPF não localizado em nossa base de dados.</p>
+                <p>Por favor, digite novamente ou procure a recepção.</p>
+            `;
+
+            inputSection.appendChild(errorDiv);
+
+            // Limpar campos
+            cpfDigits = '';
+            document.getElementById('cpf-input').value = '';
+
+            // Animação do erro
+            anime({
+                targets: errorDiv,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 500,
+                easing: 'easeOutBack'
+            });
+
+            setTimeout(() => {
+                anime({
+                    targets: errorDiv,
+                    opacity: [1, 0],
+                    translateY: [0, -20],
+                    duration: 400,
+                    easing: 'easeInBack',
+                    complete: () => {
+                        errorDiv.remove();
+                    }
+                });
+            }, 5000);
+        }
+
+        function mostrarConfirmacaoDados() {
+            document.getElementById('initial-screen').classList.add('hidden');
+            document.getElementById('patient-confirmation').classList.remove('hidden');
+
+            const detailsDiv = document.getElementById('patient-details');
+            detailsDiv.innerHTML = `
+                <div class="patient-field"><strong>👤 Nome:</strong> ${currentPatient.nome}</div>
+                <div class="patient-field"><strong>📅 Data de Nascimento:</strong> ${currentPatient.dataNascimento}</div>
+                <div class="patient-field"><strong>📄 CPF:</strong> ${currentPatient.cpf}</div>
+                ${currentPatient.nomeMae ? `<div class="patient-field"><strong>👩 Nome da Mãe:</strong> ${currentPatient.nomeMae}</div>` : ''}
+                <div class="patient-field"><strong>💳 Carteirinha:</strong> ${currentPatient.carteirinha}</div>
+                <div class="patient-field"><strong>⚧ Gênero:</strong> ${currentPatient.genero}</div>
+            `;
+
+            anime({
+                targets: '#patient-confirmation',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.patient-field',
+                opacity: [0, 1],
+                translateX: [-30, 0],
+                duration: 600,
+                delay: anime.stagger(100),
+                easing: 'easeOutCubic'
+            });
+        }
+
+        function confirmarDados() {
+            const steps = ['🔧 Preparando ambiente...', '⚙️ Configurando sessão...'];
+            showLoading(steps);
+
+            setTimeout(() => {
+                hideLoading();
+                mostrarSelecaoServicos();
+            }, 3000);
+        }
+
+        function cancelarConfirmacao() {
+            anime({
+                targets: '#patient-confirmation',
+                opacity: [1, 0],
+                translateY: [0, -50],
+                duration: 400,
+                easing: 'easeInCubic',
+                complete: () => {
+                    document.getElementById('patient-confirmation').classList.add('hidden');
+                    document.getElementById('initial-screen').classList.remove('hidden');
+                    cpfDigits = '';
+                    document.getElementById('cpf-input').value = '';
+                    currentPatient = null;
+
+                    anime({
+                        targets: '#initial-screen',
+                        opacity: [0, 1],
+                        translateY: [50, 0],
+                        duration: 600,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            });
+        }
+
+        function mostrarSelecaoServicos() {
+            document.getElementById('patient-confirmation').classList.add('hidden');
+            document.getElementById('service-selection').classList.remove('hidden');
+
+            document.getElementById('welcome-patient').innerHTML =
+                `👋 Olá <span style="color: var(--accent);">${currentPatient.nome.split(' ')[0]}</span>, seja bem-vindo ao auto-atendimento!`;
+
+            anime({
+                targets: '#service-selection',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.service-card',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                scale: [0.8, 1],
+                duration: 800,
+                delay: anime.stagger(200),
+                easing: 'easeOutBack'
+            });
+        }
+
+        function selecionarServico(servico) {
+            currentService = servico;
+
+            // Animação de saída
+            anime({
+                targets: '#service-selection',
+                opacity: [1, 0],
+                translateY: [0, -50],
+                duration: 400,
+                easing: 'easeInCubic',
+                complete: () => {
+                    document.getElementById('service-selection').classList.add('hidden');
+
+                    if (servico === 'mais-saude') {
+                        document.getElementById('mais-saude-menu').classList.remove('hidden');
+                        document.getElementById('patient-name-header').textContent = currentPatient.nome;
+                    } else {
+                        document.getElementById('laboratorio-menu').classList.remove('hidden');
+                        document.getElementById('patient-name-lab').textContent = currentPatient.nome;
+                    }
+
+                    // Animação de entrada
+                    const targetMenu = servico === 'mais-saude' ? '#mais-saude-menu' : '#laboratorio-menu';
+                    anime({
+                        targets: targetMenu,
+                        opacity: [0, 1],
+                        translateY: [50, 0],
+                        duration: 800,
+                        easing: 'easeOutCubic'
+                    });
+
+                    anime({
+                        targets: '.menu-card',
+                        opacity: [0, 1],
+                        translateY: [30, 0],
+                        scale: [0.9, 1],
+                        duration: 600,
+                        delay: anime.stagger(150),
+                        easing: 'easeOutBack'
+                    });
+                }
+            });
+        }
+
+        function voltarSelecaoServico() {
+            const currentMenu = currentService === 'mais-saude' ? '#mais-saude-menu' : '#laboratorio-menu';
+
+            anime({
+                targets: currentMenu,
+                opacity: [1, 0],
+                translateY: [0, -50],
+                duration: 400,
+                easing: 'easeInCubic',
+                complete: () => {
+                    document.getElementById('mais-saude-menu').classList.add('hidden');
+                    document.getElementById('laboratorio-menu').classList.add('hidden');
+                    document.getElementById('service-selection').classList.remove('hidden');
+
+                    anime({
+                        targets: '#service-selection',
+                        opacity: [0, 1],
+                        translateY: [50, 0],
+                        duration: 600,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            });
+        }
+
+        function voltarMenuPrincipal() {
+            const screensToHide = ['#agendamentos-screen', '#fila-espera-screen', '#notificar-recepcao'];
+            screensToHide.forEach(screen => {
+                document.querySelector(screen).classList.add('hidden');
+            });
+
+            if (currentService === 'mais-saude') {
+                document.getElementById('mais-saude-menu').classList.remove('hidden');
+                anime({
+                    targets: '#mais-saude-menu',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 600,
+                    easing: 'easeOutCubic'
+                });
+            } else {
+                document.getElementById('laboratorio-menu').classList.remove('hidden');
+                anime({
+                    targets: '#laboratorio-menu',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 600,
+                    easing: 'easeOutCubic'
+                });
+            }
+        }
+
+        function verAgendamentos() {
+            if (currentPatient.agendamentos && currentPatient.agendamentos.length > 0) {
+                document.getElementById('mais-saude-menu').classList.add('hidden');
+                document.getElementById('agendamentos-screen').classList.remove('hidden');
+
+                const listDiv = document.getElementById('agendamentos-list');
+                listDiv.innerHTML = '';
+
+                currentPatient.agendamentos.forEach((agendamento, index) => {
+                    const agendamentoDiv = document.createElement('div');
+                    agendamentoDiv.className = 'appointment-item';
+                    agendamentoDiv.innerHTML = `
+                        <h4 style="color: var(--accent); font-size: 1.5rem; margin-bottom: 15px;">🏥 ${agendamento.procedimento}</h4>
+                        <p><strong>👨‍⚕️ Profissional:</strong> ${agendamento.profissional}</p>
+                        <p><strong>🩺 Especialidade:</strong> ${agendamento.especialidade}</p>
+                        <p><strong>⏰ Horário:</strong> ${agendamento.horario}</p>
+                        <p><strong>📋 Tipo:</strong> ${agendamento.tipo}</p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-success" onclick="confirmarPresenca(${index})">✅ CONFIRMAR PRESENÇA NO LOCAL</button>
+                        </div>
+                    `;
+                    listDiv.appendChild(agendamentoDiv);
+                });
+
+                anime({
+                    targets: '#agendamentos-screen',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 800,
+                    easing: 'easeOutCubic'
+                });
+
+                anime({
+                    targets: '.appointment-item',
+                    opacity: [0, 1],
+                    translateX: [-50, 0],
+                    duration: 600,
+                    delay: anime.stagger(200),
+                    easing: 'easeOutCubic'
+                });
+            } else {
+                mostrarNotificarRecepcao();
+            }
+        }
+
+        function verAgendamentosLab() {
+            if (currentPatient.agendamentosLab && currentPatient.agendamentosLab.length > 0) {
+                document.getElementById('laboratorio-menu').classList.add('hidden');
+                document.getElementById('agendamentos-screen').classList.remove('hidden');
+
+                const listDiv = document.getElementById('agendamentos-list');
+                listDiv.innerHTML = '';
+
+                currentPatient.agendamentosLab.forEach((agendamento, index) => {
+                    const agendamentoDiv = document.createElement('div');
+                    agendamentoDiv.className = 'appointment-item';
+                    agendamentoDiv.innerHTML = `
+                        <h4 style="color: var(--secondary); font-size: 1.5rem; margin-bottom: 15px;">🧪 ${agendamento.tipo}</h4>
+                        <p><strong>⏰ Horário:</strong> ${agendamento.horario}</p>
+                        <p><strong>🍽️ Jejum:</strong> ${agendamento.jejum}</p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-success" onclick="confirmarPresencaLab(${index})">✅ CONFIRMAR PRESENÇA</button>
+                        </div>
+                    `;
+                    listDiv.appendChild(agendamentoDiv);
+                });
+
+                anime({
+                    targets: '#agendamentos-screen',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 800,
+                    easing: 'easeOutCubic'
+                });
+            } else {
+                // Modal customizada para laboratório
+                const confirmacao = confirm('❗ Não foram identificados agendamentos.\n\n🧪 Deseja informar à recepção que está no local para realização de exames laboratoriais?');
+                if (confirmacao) {
+                    anime({
+                        targets: '#laboratorio-menu',
+                        scale: [1, 1.05, 1],
+                        duration: 600,
+                        easing: 'easeOutBack'
+                    });
+                    alert('✅ Recepção notificada!\n⏳ Aguarde ser chamado para coleta.');
+                } else {
+                    alert('ℹ️ Por favor, dirija-se à recepção.');
+                }
+            }
+        }
+
+        function mostrarNotificarRecepcao() {
+            document.getElementById('mais-saude-menu').classList.add('hidden');
+            document.getElementById('notificar-recepcao').classList.remove('hidden');
+
+            anime({
+                targets: '#notificar-recepcao',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        function notificarRecepcao(tipo) {
+            const tipos = {
+                'consulta': '🩺 Consulta',
+                'terapias': '💆 Sessões/Terapias',
+                'exames': '📋 Exames de Imagem'
+            };
+
+            // Animação do botão clicado
+            anime({
+                targets: event.target,
+                scale: [1, 1.1, 1],
+                duration: 300,
+                easing: 'easeOutBack'
+            });
+
+            setTimeout(() => {
+                alert(`✅ Recepção notificada para ${tipos[tipo]}!\n⏳ Aguarde ser chamado.`);
+                voltarMenuPrincipal();
+            }, 400);
+        }
+
+        function confirmarPresenca(index) {
+            // Animação de confirmação
+            anime({
+                targets: event.target,
+                scale: [1, 1.2, 1],
+                background: ['#62c516', '#7ed321', '#62c516'],
+                duration: 500,
+                easing: 'easeOutBack'
+            });
+
+            setTimeout(() => {
+                alert('✅ Presença confirmada!\n📋 Você foi adicionado à fila do médico.');
+                voltarMenuPrincipal();
+            }, 600);
+        }
+
+        function confirmarPresencaLab(index) {
+            anime({
+                targets: event.target,
+                scale: [1, 1.2, 1],
+                background: ['#62c516', '#7ed321', '#62c516'],
+                duration: 500,
+                easing: 'easeOutBack'
+            });
+
+            setTimeout(() => {
+                alert('✅ Presença confirmada!\n🧪 Você foi adicionado à fila do laboratório.');
+                voltarMenuPrincipal();
+            }, 600);
+        }
+
+        function verFilaEspera() {
+            document.getElementById('mais-saude-menu').classList.add('hidden');
+            document.getElementById('fila-espera-screen').classList.remove('hidden');
+
+            const filaInfo = document.getElementById('fila-info');
+            filaInfo.innerHTML = `
+                <div class="patient-info">
+                    <h3>🏥 Situação da Fila - Mais Saúde</h3>
+                    <div class="patient-field"><strong>👨‍⚕️ Profissional:</strong> Dr. Carlos Mendes</div>
+                    <div class="patient-field"><strong>📊 Status:</strong> <span style="color: var(--success); font-weight: bold;">✅ Atendendo</span></div>
+                    <div class="patient-field"><strong>⏰ Iniciou atendimentos:</strong> 14:00</div>
+                </div>
+                <div class="queue-position">
+                    🎯 Sua posição: 3º
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="font-size: 1.3rem; color: var(--accent);">⏱️ Tempo estimado: <strong>25 minutos</strong></p>
+                    <button class="btn btn-secondary" onclick="atualizarFila()">🔄 ATUALIZAR FILA</button>
+                </div>
+            `;
+
+            anime({
+                targets: '#fila-espera-screen',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.queue-position',
+                scale: [0.8, 1.2, 1],
+                duration: 1200,
+                easing: 'easeOutElastic'
+            });
+        }
+
+        function verFilaEsperaLab() {
+            document.getElementById('laboratorio-menu').classList.add('hidden');
+            document.getElementById('fila-espera-screen').classList.remove('hidden');
+
+            const filaInfo = document.getElementById('fila-info');
+            filaInfo.innerHTML = `
+                <div class="patient-info">
+                    <h3>🧪 Fila do Laboratório <span class="fortis-highlight">FORTIS</span></h3>
+                    <div class="patient-field"><strong>📊 Status:</strong> <span style="color: var(--success); font-weight: bold;">✅ Funcionando Normalmente</span></div>
+                    <div class="patient-field"><strong>🕐 Horário de funcionamento:</strong> 07:00 às 11:00</div>
+                </div>
+                <div class="queue-position">
+                    🎯 Sua posição: 5º
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="font-size: 1.3rem; color: var(--secondary);">⏱️ Tempo estimado: <strong>15 minutos</strong></p>
+                    <button class="btn btn-secondary" onclick="atualizarFilaLab()">🔄 ATUALIZAR FILA</button>
+                </div>
+            `;
+
+            anime({
+                targets: '#fila-espera-screen',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.queue-position',
+                scale: [0.8, 1.2, 1],
+                duration: 1200,
+                easing: 'easeOutElastic'
+            });
+        }
+
+        function atualizarFila() {
+            const steps = ['🔄 Atualizando fila de espera...', '📊 Verificando posições...'];
+            showLoading(steps);
+
+            setTimeout(() => {
+                hideLoading();
+                document.querySelector('.queue-position').innerHTML = '🎯 Sua posição: 2º';
+                document.querySelector('#fila-info p').innerHTML = '⏱️ Tempo estimado: <strong>15 minutos</strong>';
+
+                anime({
+                    targets: '.queue-position',
+                    scale: [1, 1.3, 1],
+                    color: ['#f1b501', '#62c516', '#f1b501'],
+                    duration: 1000,
+                    easing: 'easeOutBack'
+                });
+
+                // Efeito de "posição melhorada"
+                anime({
+                    targets: '#fila-info',
+                    background: ['rgba(255, 255, 255, 0.15)', 'rgba(98, 197, 22, 0.2)', 'rgba(255, 255, 255, 0.15)'],
+                    duration: 1500,
+                    easing: 'easeInOutSine'
+                });
+            }, 3000);
+        }
+
+        function atualizarFilaLab() {
+            const steps = ['🔄 Atualizando fila do laboratório...', '🧪 Verificando coletas...'];
+            showLoading(steps);
+
+            setTimeout(() => {
+                hideLoading();
+                document.querySelector('.queue-position').innerHTML = '🎯 Sua posição: 3º';
+                document.querySelector('#fila-info p').innerHTML = '⏱️ Tempo estimado: <strong>8 minutos</strong>';
+
+                anime({
+                    targets: '.queue-position',
+                    scale: [1, 1.3, 1],
+                    color: ['#1bbaff', '#62c516', '#1bbaff'],
+                    duration: 1000,
+                    easing: 'easeOutBack'
+                });
+
+                anime({
+                    targets: '#fila-info',
+                    background: ['rgba(255, 255, 255, 0.15)', 'rgba(27, 186, 255, 0.2)', 'rgba(255, 255, 255, 0.15)'],
+                    duration: 1500,
+                    easing: 'easeInOutSine'
+                });
+            }, 3000);
+        }
+
+        function agendarRetorno() {
+            document.getElementById('mais-saude-menu').classList.add('hidden');
+            document.getElementById('agendamentos-screen').classList.remove('hidden');
+
+            const listDiv = document.getElementById('agendamentos-list');
+            listDiv.innerHTML = `
+                <div class="patient-info">
+                    <h3>📅 Agendamentos Realizados Hoje</h3>
+                    <div class="appointment-item">
+                        <h4 style="color: var(--success); font-size: 1.5rem; margin-bottom: 15px;">✅ Consulta Cardiológica - Dr. Carlos Mendes</h4>
+                        <p><strong>🕐 Realizada em:</strong> 14:30</p>
+                        <p><strong>📊 Status:</strong> <span style="color: var(--success); font-weight: bold;">Concluída</span></p>
+                        <div style="margin-top: 20px; display: flex; justify-content: center;">
+                            <button class="btn btn-primary" onclick="agendarRetornoEspecifico('cardiologia')">📅 AGENDAR RETORNO</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <div class="patient-info" style="background: linear-gradient(135deg, rgba(241, 181, 1, 0.2), rgba(241, 181, 1, 0.1));">
+                        <p style="color: var(--accent); font-size: 1.2rem; margin: 0;">
+                            <strong>⚠️ Atenção:</strong> Você pode agendar apenas um retorno por atendimento realizado.
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            anime({
+                targets: '#agendamentos-screen',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
+
+            anime({
+                targets: '.appointment-item',
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 600,
+                delay: 200,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        function agendarRetornoEspecifico(especialidade) {
+            const especialidades = {
+                'cardiologia': 'Cardiologia'
+            };
+
+            // Animação do botão
+            anime({
+                targets: event.target,
+                scale: [1, 1.1, 1],
+                duration: 300,
+                easing: 'easeOutBack'
+            });
+
+            setTimeout(() => {
+                const confirmacao = confirm(`📅 Deseja agendar retorno para ${especialidades[especialidade]}?\n\n👨‍⚕️ Profissional: Dr. Carlos Mendes`);
+
+                if (confirmacao) {
+                    const steps = ['📅 Verificando agenda...', '⚙️ Processando agendamento...', '✅ Finalizando...'];
+                    showLoading(steps);
+
+                    setTimeout(() => {
+                        hideLoading();
+
+                        // Modal customizada de sucesso
+                        const successModal = document.createElement('div');
+                        successModal.className = 'modal';
+                        successModal.style.display = 'flex';
+                        successModal.innerHTML = `
+                            <div class="modal-content" style="background: linear-gradient(135deg, rgba(98, 197, 22, 0.95), rgba(126, 211, 33, 0.9));">
+                                <h3 style="color: white; margin-bottom: 20px; font-size: 2rem;">✅ Retorno Agendado!</h3>
+                                <div style="text-align: left; margin: 20px 0;">
+                                    <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong>📅 Data:</strong> 25/08/2025</p>
+                                    <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong>🕐 Horário:</strong> 14:30</p>
+                                    <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong>👨‍⚕️ Profissional:</strong> Dr. Carlos Mendes</p>
+                                    <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong>🩺 Especialidade:</strong> Cardiologia</p>
+                                </div>
+                                <button class="btn btn-primary" onclick="fecharModalSucesso()" style="margin-top: 20px;">CONTINUAR</button>
+                            </div>
+                        `;
+
+                        document.body.appendChild(successModal);
+
+                        anime({
+                            targets: successModal.querySelector('.modal-content'),
+                            opacity: [0, 1],
+                            scale: [0.8, 1],
+                            duration: 600,
+                            easing: 'easeOutBack'
+                        });
+
+                        // Auto-remover após 8 segundos
+                        setTimeout(() => {
+                            fecharModalSucesso();
+                        }, 8000);
+                    }, 4000);
+                }
+            }, 400);
+        }
+
+        function fecharModalSucesso() {
+            const successModal = document.querySelector('.modal');
+            if (successModal && successModal.querySelector('.modal-content').style.background.includes('98, 197, 22')) {
+                anime({
+                    targets: successModal.querySelector('.modal-content'),
+                    opacity: [1, 0],
+                    scale: [1, 0.8],
+                    duration: 400,
+                    easing: 'easeInBack',
+                    complete: () => {
+                        document.body.removeChild(successModal);
+                        voltarMenuPrincipal();
+                    }
+                });
+            }
+        }
+
+        // Efeitos de hover aprimorados
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hover para botões
+            document.addEventListener('mouseenter', function (e) {
+                if (e.target.classList.contains('btn')) {
+                    anime({
+                        targets: e.target,
+                        scale: 1.05,
+                        duration: 200,
+                        easing: 'easeOutCubic'
+                    });
+                }
+
+                if (e.target.classList.contains('service-card') || e.target.classList.contains('menu-card')) {
+                    anime({
+                        targets: e.target,
+                        scale: 1.02,
+                        duration: 200,
+                        easing: 'easeOutCubic'
+                    });
+                }
+
+                if (e.target.classList.contains('key-btn')) {
+                    anime({
+                        targets: e.target,
+                        scale: 1.1,
+                        duration: 150,
+                        easing: 'easeOutBack'
+                    });
+                }
+            }, true);
+
+            document.addEventListener('mouseleave', function (e) {
+                if (e.target.classList.contains('btn') || e.target.classList.contains('service-card') ||
+                    e.target.classList.contains('menu-card') || e.target.classList.contains('key-btn')) {
+                    anime({
+                        targets: e.target,
+                        scale: 1,
+                        duration: 200,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            }, true);
+        });
+
+        // Efeitos visuais extras e interatividade
+        setInterval(() => {
+            anime({
+                targets: '.floating-circle:nth-child(1)',
+                scale: [1, 1.3, 1],
+                opacity: [0.1, 0.4, 0.1],
+                duration: 4000,
+                easing: 'easeInOutSine'
+            });
+        }, 6000);
+
+        setInterval(() => {
+            anime({
+                targets: '.floating-circle:nth-child(3)',
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.3, 0.1],
+                duration: 3500,
+                easing: 'easeInOutSine'
+            });
+        }, 7000);
+
+        // Feedback tátil/visual ao tocar
+        document.addEventListener('touchstart', function (e) {
+            if (e.target.classList.contains('btn') || e.target.classList.contains('service-card') ||
+                e.target.classList.contains('menu-card') || e.target.classList.contains('key-btn')) {
+
+                // Criar efeito de ripple melhorado
+                const ripple = document.createElement('div');
+                const rect = e.target.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1))';
+                ripple.style.width = size + 'px';
+                ripple.style.height = size + 'px';
+                ripple.style.left = (e.touches[0].clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.touches[0].clientY - rect.top - size / 2) + 'px';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.zIndex = '9999';
+
+                e.target.style.position = 'relative';
+                e.target.style.overflow = 'hidden';
+                e.target.appendChild(ripple);
+
+                anime({
+                    targets: ripple,
+                    scale: [0, 2],
+                    opacity: [0.8, 0],
+                    duration: 800,
+                    easing: 'easeOutCubic',
+                    complete: () => {
+                        if (ripple.parentNode) {
+                            ripple.parentNode.removeChild(ripple);
+                        }
+                    }
+                });
+            }
+        });
+
+        // Auto-refresh inteligente para fila de espera
+        let autoRefreshInterval;
+        let refreshCount = 0;
+
+        function iniciarAutoRefresh() {
+            autoRefreshInterval = setInterval(() => {
+                const filaScreen = document.getElementById('fila-espera-screen');
+                if (!filaScreen.classList.contains('hidden')) {
+                    refreshCount++;
+
+                    // Simular mudança na fila com mais realismo
+                    const positionEl = document.querySelector('.queue-position');
+                    if (positionEl && refreshCount % 3 === 0) { // A cada 1.5 minutos
+                        const currentPos = parseInt(positionEl.textContent.match(/\d+/)[0]);
+                        if (currentPos > 1) {
+                            const newPos = Math.max(1, currentPos - 1);
+                            positionEl.innerHTML = `🎯 Sua posição: ${newPos}º`;
+
+                            // Atualizar tempo estimado
+                            const tempoEl = document.querySelector('#fila-info p strong');
+                            if (tempoEl) {
+                                const novoTempo = Math.max(5, (newPos - 1) * 12);
+                                tempoEl.textContent = `${novoTempo} minutos`;
+                            }
+
+                            anime({
+                                targets: positionEl,
+                                scale: [1, 1.4, 1],
+                                color: ['#f1b501', '#62c516', '#f1b501'],
+                                duration: 1200,
+                                easing: 'easeOutElastic'
+                            });
+
+                            // Notificação visual
+                            const notification = document.createElement('div');
+                            notification.style.position = 'fixed';
+                            notification.style.top = '50%';
+                            notification.style.left = '50%';
+                            notification.style.transform = 'translate(-50%, -50%)';
+                            notification.style.background = 'linear-gradient(135deg, #62c516, #7ed321)';
+                            notification.style.color = 'white';
+                            notification.style.padding = '20px 40px';
+                            notification.style.borderRadius = '15px';
+                            notification.style.fontSize = '1.5rem';
+                            notification.style.fontWeight = 'bold';
+                            notification.style.zIndex = '10000';
+                            notification.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
+                            notification.textContent = '🎉 Sua posição na fila melhorou!';
+
+                            document.body.appendChild(notification);
+
+                            anime({
+                                targets: notification,
+                                opacity: [0, 1, 1, 0],
+                                scale: [0.8, 1.1, 1, 0.8],
+                                duration: 3000,
+                                easing: 'easeOutBack',
+                                complete: () => {
+                                    document.body.removeChild(notification);
+                                }
+                            });
+                        }
+                    }
+                }
+            }, 30000); // A cada 30 segundos
+        }
+
+        function pararAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                refreshCount = 0;
+            }
+        }
+
+        // Iniciar auto-refresh
+        iniciarAutoRefresh();
+
+        // Prevenir zoom indesejado em dispositivos touch
+        document.addEventListener('touchmove', function (e) {
+            if (e.scale !== 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevenir duplo-toque para zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Melhorar performance das animações
+        anime.suspendWhenDocumentHidden = false;
+
+        // Log de debug para desenvolvimento (remover em produção)
+        console.log('🚀 Totem MAIS SAÚDE & LABORATÓRIO FORTIS carregado com sucesso!');
+        console.log('📱 Sistema otimizado para touch screen');
+        console.log('🎨 Tema personalizado aplicado');
+        console.log('⚡ Animações e interatividade ativas');
+    </script>
+</body>
+
+</html>
