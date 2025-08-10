@@ -52,7 +52,6 @@
 
         .header {
             text-align: center;
-            /* margin-bottom: 40px; */
             opacity: 0;
             transform: translateY(-50px);
             background: rgba(255, 255, 255, 0.1);
@@ -60,6 +59,7 @@
             border-radius: 25px;
             padding: 30px;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px !important;
         }
 
         .logo {
@@ -85,7 +85,6 @@
 
         .fortis-highlight {
             color: var(--purple);
-            /* #4b3fc5 */
             font-size: 2.5rem;
             font-weight: 900;
             display: inline-block;
@@ -361,7 +360,6 @@
             margin: 25px 10px;
             text-align: left;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            /* min-width: 100% !important; */
         }
 
         #patient-info {
@@ -402,7 +400,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            /* margin-top: 40px; */
             width: 100%;
             max-width: 1000px;
         }
@@ -471,9 +468,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            /* margin-top: 40px; */
             width: 100%;
-            /* max-width: 1200px; */
         }
 
         .menu-card {
@@ -527,10 +522,12 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
             padding: 30px;
             border-radius: 20px;
-            margin: 20px 0;
+            margin: 20px 15px;
             border-left: 6px solid var(--accent);
             border: 2px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
+            min-width: 450px;
+            flex: 0 0 auto;
         }
 
         .queue-position {
@@ -556,10 +553,8 @@
         /* Container para alinhar o botão "Voltar" com o cabeçalho */
         .header-container {
             position: relative;
-            /* Define o contexto de posicionamento para os filhos */
             width: 100%;
             margin-bottom: 40px;
-            /* Adicione a margem aqui para controlar o espaçamento com o conteúdo abaixo */
             max-width: 1400px;
             display: flex;
             justify-content: center;
@@ -567,12 +562,9 @@
 
         .back-btn {
             position: absolute;
-            /* Posiciona o botão em relação ao .header-container */
-            top: 50%;
-            /* Alinha verticalmente no meio do contêiner */
             left: 0;
+            top: 50%;
             transform: translateY(-50%);
-            /* Ajusta para centralizar o botão */
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
             border: 2px solid rgba(255, 255, 255, 0.3);
             padding: 20px 25px;
@@ -589,15 +581,12 @@
         .back-btn:hover {
             background: rgba(255, 255, 255, 0.4);
             transform: translateY(-50%) translateX(-5px);
-            /* Ajusta para manter o alinhamento vertical */
         }
 
         #patient-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            /* Cria duas colunas de largura igual */
             gap: 20px;
-            /* Adiciona um espaço de 20px entre os campos */
             margin-top: 20px;
         }
 
@@ -655,6 +644,91 @@
             display: none !important;
         }
 
+        /* Carrossel de Agendamentos */
+        .carousel-container {
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            padding: 10px 0;
+            touch-action: pan-y;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            /* Aumentado de 40px */
+            height: 80px;
+            /* Aumentado de 40px */
+            color: var(--primary-dark);
+            font-size: 2.5rem;
+            /* Aumentado de 1.2rem */
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--accent);
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-arrow.left {
+            left: -40px;
+            /* Posicionado mais para fora */
+        }
+
+        .carousel-arrow.right {
+            right: -40px;
+            /* Posicionado mais para fora */
+        }
+
+        /* Ajustes para telas menores */
+        @media (max-width: 1200px) {
+            .appointment-item {
+                min-width: 400px;
+            }
+        }
+
         @media (max-width: 768px) {
             .service-options {
                 grid-template-columns: 1fr;
@@ -671,6 +745,73 @@
 
             .welcome-message {
                 font-size: 2rem;
+            }
+
+            .appointment-item {
+                min-width: 300px;
+                margin: 20px 10px;
+            }
+
+            .carousel-arrow {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .carousel-arrow.left {
+                left: -30px;
+            }
+
+            .carousel-arrow.right {
+                right: -30px;
+            }
+
+            .patient-header,
+            #patient-header-princal {
+                min-width: 90% !important;
+                padding: 20px;
+            }
+
+            .back-btn {
+                padding: 15px 20px;
+                font-size: 1rem;
+                top: 0;
+                transform: none;
+                margin-bottom: 20px;
+                position: relative;
+                left: auto;
+                width: fit-content;
+            }
+
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .appointment-item {
+                min-width: 280px;
+                padding: 20px;
+            }
+
+            .carousel-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .carousel-arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .carousel-arrow.left {
+                left: -20px;
+            }
+
+            .carousel-arrow.right {
+                right: -20px;
             }
         }
     </style>
@@ -696,7 +837,7 @@
 
     <div class="container">
         <div class="header">
-            <div class="logo">MAIS SAÚDE</div>
+            <div class="logo">MAIS SAÚDE CLÍNICA LTDA</div>
             <div class="lab-name">& LABORATÓRIO <span class="fortis-highlight">FORTIS</span></div>
             <div class="subtitle">Sistema de Auto-Atendimento Inteligente</div>
         </div>
@@ -759,7 +900,7 @@
             </div>
             <div class="service-options">
                 <div class="service-card" onclick="selecionarServico('mais-saude')">
-                    <h3>MAIS SAÚDE</h3>
+                    <h3>MAIS SAÚDE CLÍNICA LTDA</h3>
                     <p>UNIDADE POÇO</p>
                 </div>
                 <div class="service-card fortis" onclick="selecionarServico('laboratorio')">
@@ -776,7 +917,7 @@
                     Voltar</button>
                 <div class="patient-header">
                     <h2 id="patient-name-header"></h2>
-                    <p>MAIS SAÚDE - UNIDADE POÇO</p>
+                    <p>MAIS SAÚDE CLÍNICA LTDA - UNIDADE POÇO</p>
                 </div>
             </div>
             <div class="menu-options">
@@ -819,18 +960,55 @@
 
         <!-- Agendamentos -->
         <div id="agendamentos-screen" class="main-content hidden">
-            <button class="back-btn" onclick="voltarMenuPrincipal()"><i class="fas fa-arrow-left"></i> Voltar</button>
-            <h2 style="text-align: center; margin-bottom: 30px; color: var(--accent); font-size: 2.5rem;">Meus
-                Agendamentos</h2>
-            <div id="agendamentos-list"></div>
+            <div class="header-container">
+                <button class="back-btn" onclick="voltarMenuPrincipal()"><i class="fas fa-arrow-left"></i>
+                    Voltar</button>
+                <div class="patient-header">
+                    <h2>Meus Agendamentos</h2>
+                    <p>Confirme sua presença nos atendimentos agendados</p>
+                </div>
+            </div>
+
+            <button class="carousel-arrow left" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+            <div class="carousel-container">
+                <div class="carousel-track" id="agendamentos-carousel"></div>
+            </div>
+            <div class="carousel-nav" id="agendamentos-dots"></div>
+            <button class="carousel-arrow right" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
         </div>
 
         <!-- Fila de Espera -->
         <div id="fila-espera-screen" class="main-content hidden">
-            <button class="back-btn" onclick="voltarMenuPrincipal()"><i class="fas fa-arrow-left"></i> Voltar</button>
-            <h2 style="text-align: center; margin-top: 30px; color: var(--secondary); font-size: 2.5rem;">Fila de Espera
-            </h2>
+            <div class="header-container">
+                <button class="back-btn" onclick="voltarMenuPrincipal()"><i class="fas fa-arrow-left"></i>
+                    Voltar</button>
+                <div class="patient-header">
+                    <h2>Fila de Espera</h2>
+                    <p>Acompanhe sua posição na fila de atendimento</p>
+                </div>
+            </div>
             <div id="fila-info"></div>
+        </div>
+
+        <!-- Agendar Retorno -->
+        <div id="agendar-retorno-screen" class="main-content hidden">
+            <div class="header-container">
+                <button class="back-btn" onclick="voltarMenuPrincipal()"><i class="fas fa-arrow-left"></i>
+                    Voltar</button>
+                <div class="patient-header">
+                    <h2>Agendar Retorno</h2>
+                    <p>Selecione o atendimento para agendar retorno</p>
+                </div>
+            </div>
+
+            <div class="carousel-container">
+                <div class="carousel-track" id="retorno-carousel"></div>
+                <button class="carousel-arrow left" onclick="moveRetornoCarousel(-1)"><i
+                        class="fas fa-chevron-left"></i></button>
+                <button class="carousel-arrow right" onclick="moveRetornoCarousel(1)"><i
+                        class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="carousel-nav" id="retorno-dots"></div>
         </div>
 
         <!-- Notificar Recepção -->
@@ -894,6 +1072,14 @@
                         horario: '14:30',
                         tipo: 'Hora Marcada',
                         procedimento: 'Consulta Cardiológica'
+                    },
+                    {
+                        unidade: 'Mais Saúde - Poço',
+                        profissional: 'Dra. Ana Paula',
+                        especialidade: 'Dermatologia',
+                        horario: '10:15',
+                        tipo: 'Hora Marcada',
+                        procedimento: 'Avaliação Dermatológica'
                     }
                 ],
                 agendamentosLab: [
@@ -901,14 +1087,365 @@
                         tipo: 'Hemograma Completo',
                         horario: '08:00',
                         jejum: 'Necessário'
+                    },
+                    {
+                        tipo: 'Glicemia',
+                        horario: '08:30',
+                        jejum: 'Necessário'
+                    }
+                ],
+                atendimentosRealizadosMaisSaude: [
+                    {
+                        unidade: 'Mais Saúde - Poço',
+                        profissional: 'Dr. Carlos Mendes',
+                        especialidade: 'Cardiologia',
+                        data: '10/08/2025',
+                        horario: '14:30',
+                        status: 'Concluída',
+                        procedimento: 'Consulta Cardiológica'
+                    },
+                    {
+                        unidade: 'Mais Saúde - Poço',
+                        profissional: 'Dra. Fernanda Lima',
+                        especialidade: 'Oftalmologia',
+                        data: '05/08/2025',
+                        horario: '09:15',
+                        status: 'Concluída',
+                        procedimento: 'Exame de Vista'
+                    }
+                ],
+                atendimentosRealizadosLab: [
+                    {
+                        unidade: 'Laboratório Fortis',
+                        tipo: 'Hemograma Completo',
+                        data: '12/08/2025',
+                        horario: '08:00',
+                        status: 'Concluído',
+                        resultado: 'Disponível no portal'
+                    },
+                    {
+                        unidade: 'Laboratório Fortis',
+                        tipo: 'Glicemia',
+                        data: '12/08/2025',
+                        horario: '08:30',
+                        status: 'Concluído',
+                        resultado: 'Disponível no portal'
                     }
                 ]
             }
         };
 
+
         let currentPatient = null;
         let currentService = null;
         let cpfDigits = '';
+        let currentCarouselIndex = 0;
+        let currentRetornoIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        // --- Funções do Carrossel ---
+
+        function setupCarousel() {
+            const carousel = document.querySelector('#agendamentos-carousel');
+            const dotsContainer = document.querySelector('#agendamentos-dots');
+
+            if (!currentPatient.agendamentos || currentPatient.agendamentos.length === 0) {
+                carousel.innerHTML = `
+                    <div class="appointment-item" style="min-width: 100%; text-align: center;">
+                        <h3 style="color: var(--accent); margin-bottom: 20px;"><i class="fas fa-calendar-times"></i> Nenhum agendamento encontrado</h3>
+                        <p>Você não possui agendamentos ativos.</p>
+                        <button class="btn btn-primary" onclick="mostrarNotificarRecepcao()" style="margin-top: 20px;">
+                            <i class="fas fa-bell"></i> NOTIFICAR RECEPÇÃO
+                        </button>
+                    </div>
+                `;
+                dotsContainer.innerHTML = '';
+                return;
+            }
+
+            carousel.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            currentPatient.agendamentos.forEach((agendamento, index) => {
+                const agendamentoDiv = document.createElement('div');
+                agendamentoDiv.className = 'appointment-item';
+                agendamentoDiv.innerHTML = `
+                    <h4 style="color: var(--accent); font-size: 1.5rem; margin-bottom: 15px;"><i class="fas fa-hospital"></i> ${agendamento.procedimento}</h4>
+                    <p><strong><i class="fas fa-user-md"></i> Profissional:</strong> ${agendamento.profissional}</p>
+                    <p><strong><i class="fas fa-stethoscope"></i> Especialidade:</strong> ${agendamento.especialidade}</p>
+                    <p><strong><i class="fas fa-clock"></i> Horário:</strong> ${agendamento.horario}</p>
+                    <p><strong><i class="fas fa-clipboard-list"></i> Tipo:</strong> ${agendamento.tipo}</p>
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-success" onclick="confirmarPresenca(${index})"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA NO LOCAL</button>
+                    </div>
+                `;
+                carousel.appendChild(agendamentoDiv);
+
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => moveCarouselTo(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            updateCarouselPosition();
+            setupCarouselTouchEvents();
+        }
+
+        function setupRetornoCarousel() {
+            const carousel = document.querySelector('#retorno-carousel');
+            const dotsContainer = document.querySelector('#retorno-dots');
+
+            // Determina quais dados usar baseado no serviço atual
+            const atendimentosRealizados = currentService === 'mais-saude'
+                ? currentPatient.atendimentosRealizadosMaisSaude
+                : currentPatient.atendimentosRealizadosLab;
+
+            if (!atendimentosRealizados || atendimentosRealizados.length === 0) {
+                carousel.innerHTML = `
+                    <div class="appointment-item" style="min-width: 100%; text-align: center;">
+                        <h3 style="color: var(--accent); margin-bottom: 20px;"><i class="fas fa-calendar-times"></i> Nenhum atendimento recente</h3>
+                        <p>Não foram encontrados atendimentos realizados recentemente.</p>
+                    </div>
+                `;
+                dotsContainer.innerHTML = '';
+                return;
+            }
+
+            carousel.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            atendimentosRealizados.forEach((atendimento, index) => {
+                const atendimentoDiv = document.createElement('div');
+                atendimentoDiv.className = 'appointment-item';
+
+                if (currentService === 'mais-saude') {
+                    atendimentoDiv.innerHTML = `
+                        <h4 style="color: var(--success); font-size: 1.5rem; margin-bottom: 15px;">
+                            <i class="fas fa-check-circle"></i> ${atendimento.procedimento}
+                        </h4>
+                        <p><strong><i class="fas fa-user-md"></i> Profissional:</strong> ${atendimento.profissional}</p>
+                        <p><strong><i class="fas fa-stethoscope"></i> Especialidade:</strong> ${atendimento.especialidade}</p>
+                        <p><strong><i class="fas fa-calendar-day"></i> Data:</strong> ${atendimento.data}</p>
+                        <p><strong><i class="fas fa-clock"></i> Realizado em:</strong> ${atendimento.horario}</p>
+                        <p><strong><i class="fas fa-chart-bar"></i> Status:</strong> 
+                            <span style="color: var(--success); font-weight: bold;">${atendimento.status}</span>
+                        </p>
+                        <div style="margin-top: 20px; display: flex; justify-content: center;">
+                            <button class="btn btn-primary" onclick="agendarRetornoEspecifico('${atendimento.especialidade.toLowerCase()}', ${index})">
+                                <i class="fas fa-calendar-plus"></i> AGENDAR RETORNO
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    atendimentoDiv.innerHTML = `
+                        <h4 style="color: var(--secondary); font-size: 1.5rem; margin-bottom: 15px;">
+                            <i class="fas fa-flask"></i> ${atendimento.tipo}
+                        </h4>
+                        <p><strong><i class="fas fa-calendar-day"></i> Data:</strong> ${atendimento.data}</p>
+                        <p><strong><i class="fas fa-clock"></i> Realizado em:</strong> ${atendimento.horario}</p>
+                        <p><strong><i class="fas fa-chart-bar"></i> Status:</strong> 
+                            <span style="color: var(--success); font-weight: bold;">${atendimento.status}</span>
+                        </p>
+                        <p><strong><i class="fas fa-file-medical"></i> Resultado:</strong> ${atendimento.resultado}</p>
+                        <div style="margin-top: 20px; display: flex; justify-content: center;">
+                            <button class="btn btn-primary" onclick="agendarRetornoEspecifico('laboratorio', ${index})">
+                                <i class="fas fa-calendar-plus"></i> AGENDAR NOVO EXAME
+                            </button>
+                        </div>
+                    `;
+                }
+
+                carousel.appendChild(atendimentoDiv);
+
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => moveRetornoCarouselTo(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            updateRetornoCarouselPosition();
+            setupRetornoCarouselTouchEvents();
+        }
+
+        function setupCarouselTouchEvents() {
+            const carousel = document.querySelector('#agendamentos-carousel');
+
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carousel.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleCarouselSwipe();
+            }, { passive: true });
+        }
+
+        function setupRetornoCarouselTouchEvents() {
+            const carousel = document.querySelector('#retorno-carousel');
+
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carousel.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleRetornoCarouselSwipe();
+            }, { passive: true });
+        }
+
+        function handleCarouselSwipe() {
+            const threshold = 50;
+            if (touchStartX - touchEndX > threshold) {
+                moveCarousel(1); // Swipe left - next
+            } else if (touchEndX - touchStartX > threshold) {
+                moveCarousel(-1); // Swipe right - previous
+            }
+        }
+
+        function handleRetornoCarouselSwipe() {
+            const threshold = 50;
+            if (touchStartX - touchEndX > threshold) {
+                moveRetornoCarousel(1); // Swipe left - next
+            } else if (touchEndX - touchStartX > threshold) {
+                moveRetornoCarousel(-1); // Swipe right - previous
+            }
+        }
+
+        function moveCarousel(direction) {
+            const items = document.querySelectorAll('.appointment-item');
+            const dots = document.querySelectorAll('#agendamentos-dots .carousel-dot');
+
+            if (items.length <= 1) return;
+
+            currentCarouselIndex += direction;
+
+            if (currentCarouselIndex < 0) {
+                currentCarouselIndex = items.length - 1;
+            } else if (currentCarouselIndex >= items.length) {
+                currentCarouselIndex = 0;
+            }
+
+            updateCarouselPosition();
+            updateCarouselDots(dots);
+        }
+
+        function moveRetornoCarousel(direction) {
+            const items = document.querySelectorAll('#retorno-carousel .appointment-item');
+            const dots = document.querySelectorAll('#retorno-dots .carousel-dot');
+
+            if (items.length <= 1) return;
+
+            currentRetornoIndex += direction;
+
+            if (currentRetornoIndex < 0) {
+                currentRetornoIndex = items.length - 1;
+            } else if (currentRetornoIndex >= items.length) {
+                currentRetornoIndex = 0;
+            }
+
+            updateRetornoCarouselPosition();
+            updateRetornoCarouselDots(dots);
+        }
+
+        function moveCarouselTo(index) {
+            const items = document.querySelectorAll('.appointment-item');
+            const dots = document.querySelectorAll('#agendamentos-dots .carousel-dot');
+
+            if (index < 0 || index >= items.length) return;
+
+            currentCarouselIndex = index;
+            updateCarouselPosition();
+            updateCarouselDots(dots);
+        }
+
+        function moveRetornoCarouselTo(index) {
+            const items = document.querySelectorAll('#retorno-carousel .appointment-item');
+            const dots = document.querySelectorAll('#retorno-dots .carousel-dot');
+
+            if (index < 0 || index >= items.length) return;
+
+            currentRetornoIndex = index;
+            updateRetornoCarouselPosition();
+            updateRetornoCarouselDots(dots);
+        }
+
+        function updateCarouselPosition() {
+            const carousel = document.querySelector('#agendamentos-carousel');
+            const items = document.querySelectorAll('.appointment-item');
+            if (items.length === 0) return;
+
+            const itemWidth = items[0].offsetWidth + 30; // inclui margem
+            const offset = -currentCarouselIndex * itemWidth;
+
+            anime({
+                targets: carousel,
+                translateX: offset,
+                duration: 500,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        function updateRetornoCarouselPosition() {
+            const carousel = document.querySelector('#retorno-carousel');
+            const items = document.querySelectorAll('#retorno-carousel .appointment-item');
+            if (items.length === 0) return;
+
+            const itemWidth = items[0].offsetWidth + 30; // inclui margem
+            const offset = -currentRetornoIndex * itemWidth;
+
+            anime({
+                targets: carousel,
+                translateX: offset,
+                duration: 500,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        function updateCarouselDots(dots) {
+            dots.forEach((dot, index) => {
+                if (index === currentCarouselIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function updateRetornoCarouselDots(dots) {
+            dots.forEach((dot, index) => {
+                if (index === currentRetornoIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Iniciar auto-rotação do carrossel
+        // let carouselInterval;
+        // function startCarouselAutoRotation() {
+        //     if (carouselInterval) clearInterval(carouselInterval);
+        //     carouselInterval = setInterval(() => {
+        //         const items = document.querySelectorAll('.appointment-item');
+        //         if (items.length > 1) {
+        //             moveCarousel(1);
+        //         }
+        //     }, 8000);
+        // }
+
+        // let retornoCarouselInterval;
+        // function startRetornoCarouselAutoRotation() {
+        //     if (retornoCarouselInterval) clearInterval(retornoCarouselInterval);
+        //     retornoCarouselInterval = setInterval(() => {
+        //         const items = document.querySelectorAll('#retorno-carousel .appointment-item');
+        //         if (items.length > 1) {
+        //             moveRetornoCarousel(1);
+        //         }
+        //     }, 8000);
+        // }
 
         // --- Funções de Animação e Teclado ---
 
@@ -1447,7 +1984,7 @@
         }
 
         function voltarMenuPrincipal() {
-            const screensToHide = ['#agendamentos-screen', '#fila-espera-screen', '#notificar-recepcao'];
+            const screensToHide = ['#agendamentos-screen', '#fila-espera-screen', '#notificar-recepcao', '#agendar-retorno-screen'];
             screensToHide.forEach(screen => {
                 document.querySelector(screen).classList.add('hidden');
             });
@@ -1474,48 +2011,19 @@
         }
 
         function verAgendamentos() {
-            if (currentPatient.agendamentos && currentPatient.agendamentos.length > 0) {
-                document.getElementById('mais-saude-menu').classList.add('hidden');
-                document.getElementById('agendamentos-screen').classList.remove('hidden');
+            document.getElementById('mais-saude-menu').classList.add('hidden');
+            document.getElementById('agendamentos-screen').classList.remove('hidden');
 
-                const listDiv = document.getElementById('agendamentos-list');
-                listDiv.innerHTML = '';
+            setupCarousel();
+            // startCarouselAutoRotation();
 
-                currentPatient.agendamentos.forEach((agendamento, index) => {
-                    const agendamentoDiv = document.createElement('div');
-                    agendamentoDiv.className = 'appointment-item';
-                    agendamentoDiv.innerHTML = `
-                        <h4 style="color: var(--accent); font-size: 1.5rem; margin-bottom: 15px;"><i class="fas fa-hospital"></i> ${agendamento.procedimento}</h4>
-                        <p><strong><i class="fas fa-user-md"></i> Profissional:</strong> ${agendamento.profissional}</p>
-                        <p><strong><i class="fas fa-stethoscope"></i> Especialidade:</strong> ${agendamento.especialidade}</p>
-                        <p><strong><i class="fas fa-clock"></i> Horário:</strong> ${agendamento.horario}</p>
-                        <p><strong><i class="fas fa-clipboard-list"></i> Tipo:</strong> ${agendamento.tipo}</p>
-                        <div style="margin-top: 20px;">
-                            <button class="btn btn-success" onclick="confirmarPresenca(${index})"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA NO LOCAL</button>
-                        </div>
-                    `;
-                    listDiv.appendChild(agendamentoDiv);
-                });
-
-                anime({
-                    targets: '#agendamentos-screen',
-                    opacity: [0, 1],
-                    translateY: [50, 0],
-                    duration: 800,
-                    easing: 'easeOutCubic'
-                });
-
-                anime({
-                    targets: '.appointment-item',
-                    opacity: [0, 1],
-                    translateX: [-50, 0],
-                    duration: 600,
-                    delay: anime.stagger(200),
-                    easing: 'easeOutCubic'
-                });
-            } else {
-                mostrarNotificarRecepcao();
-            }
+            anime({
+                targets: '#agendamentos-screen',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
         }
 
         function verAgendamentosLab() {
@@ -1523,22 +2031,8 @@
                 document.getElementById('laboratorio-menu').classList.add('hidden');
                 document.getElementById('agendamentos-screen').classList.remove('hidden');
 
-                const listDiv = document.getElementById('agendamentos-list');
-                listDiv.innerHTML = '';
-
-                currentPatient.agendamentosLab.forEach((agendamento, index) => {
-                    const agendamentoDiv = document.createElement('div');
-                    agendamentoDiv.className = 'appointment-item';
-                    agendamentoDiv.innerHTML = `
-                        <h4 style="color: var(--secondary); font-size: 1.5rem; margin-bottom: 15px;"><i class="fas fa-flask"></i> ${agendamento.tipo}</h4>
-                        <p><strong><i class="fas fa-clock"></i> Horário:</strong> ${agendamento.horario}</p>
-                        <p><strong><i class="fas fa-utensils"></i> Jejum:</strong> ${agendamento.jejum}</p>
-                        <div style="margin-top: 20px;">
-                            <button class="btn btn-success" onclick="confirmarPresencaLab(${index})"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA</button>
-                        </div>
-                    `;
-                    listDiv.appendChild(agendamentoDiv);
-                });
+                setupCarousel();
+                // startCarouselAutoRotation();
 
                 anime({
                     targets: '#agendamentos-screen',
@@ -1562,6 +2056,22 @@
                     alert('Por favor, dirija-se à recepção.');
                 }
             }
+        }
+
+        function agendarRetorno() {
+            document.getElementById('mais-saude-menu').classList.add('hidden');
+            document.getElementById('agendar-retorno-screen').classList.remove('hidden');
+
+            setupRetornoCarousel();
+            // startRetornoCarouselAutoRotation();
+
+            anime({
+                targets: '#agendar-retorno-screen',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic'
+            });
         }
 
         function mostrarNotificarRecepcao() {
@@ -1819,10 +2329,17 @@
             });
         }
 
-        function agendarRetornoEspecifico(especialidade) {
-            const especialidades = {
-                'cardiologia': 'Cardiologia'
-            };
+        function agendarRetornoEspecifico(tipo, index) {
+            let mensagem, profissional;
+
+            if (currentService === 'mais-saude') {
+                const atendimento = currentPatient.atendimentosRealizadosMaisSaude[index];
+                profissional = atendimento.profissional;
+                mensagem = `📅 Deseja agendar retorno para ${atendimento.especialidade}?\n\n👨‍⚕️ Profissional: ${profissional}`;
+            } else {
+                const atendimento = currentPatient.atendimentosRealizadosLab[index];
+                mensagem = `🧪 Deseja agendar novo exame de ${atendimento.tipo}?`;
+            }
 
             // Animação do botão
             anime({
@@ -1833,10 +2350,14 @@
             });
 
             setTimeout(() => {
-                const confirmacao = confirm(`📅 Deseja agendar retorno para ${especialidades[especialidade]}?\n\n👨‍⚕️ Profissional: Dr. Carlos Mendes`);
+                const confirmacao = confirm(mensagem);
 
                 if (confirmacao) {
-                    const steps = ['<i class="fas fa-calendar-check"></i> Verificando agenda...', '<i class="fas fa-cogs"></i> Processando agendamento...', '<i class="fas fa-check-double"></i> Finalizando...'];
+                    const steps = [
+                        '<i class="fas fa-calendar-check"></i> Verificando agenda...',
+                        '<i class="fas fa-cogs"></i> Processando agendamento...',
+                        '<i class="fas fa-check-double"></i> Finalizando...'
+                    ];
                     showLoading(steps);
 
                     setTimeout(() => {
@@ -1846,18 +2367,60 @@
                         const successModal = document.createElement('div');
                         successModal.className = 'modal';
                         successModal.style.display = 'flex';
-                        successModal.innerHTML = `
-                    <div class="modal-content" style="background: linear-gradient(135deg, rgba(98, 197, 22, 0.95), rgba(126, 211, 33, 0.9));">
-                        <h3 style="color: white; margin-bottom: 20px; font-size: 2rem;"><i class="fas fa-check-circle"></i> Retorno Agendado!</h3>
-                        <div style="text-align: left; margin: 20px 0;">
-                            <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong><i class="fas fa-calendar-alt"></i> Data:</strong> 25/08/2025</p>
-                            <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong><i class="fas fa-clock"></i> Horário:</strong> 14:30</p>
-                            <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong><i class="fas fa-user-md"></i> Profissional:</strong> Dr. Carlos Mendes</p>
-                            <p style="color: white; font-size: 1.2rem; margin: 10px 0;"><strong><i class="fas fa-stethoscope"></i> Especialidade:</strong> Cardiologia</p>
-                        </div>
-                        <button class="btn btn-primary" onclick="fecharModalSucesso()" style="margin-top: 20px;">CONTINUAR</button>
-                    </div>
-                `;
+
+                        if (currentService === 'mais-saude') {
+                            const atendimento = currentPatient.atendimentosRealizadosMaisSaude[index];
+                            successModal.innerHTML = `
+                                <div class="modal-content" style="background: linear-gradient(135deg, rgba(98, 197, 22, 0.95), rgba(126, 211, 33, 0.9));">
+                                    <h3 style="color: white; margin-bottom: 20px; font-size: 2rem;">
+                                        <i class="fas fa-check-circle"></i> Retorno Agendado!
+                                    </h3>
+                                    <div style="text-align: left; margin: 20px 0;">
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-calendar-alt"></i> Data:</strong> 25/08/2025
+                                        </p>
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-clock"></i> Horário:</strong> 14:30
+                                        </p>
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-user-md"></i> Profissional:</strong> ${atendimento.profissional}
+                                        </p>
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-stethoscope"></i> Especialidade:</strong> ${atendimento.especialidade}
+                                        </p>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="fecharModalSucesso()" style="margin-top: 20px;">
+                                        CONTINUAR
+                                    </button>
+                                </div>
+                            `;
+                        } else {
+                            const atendimento = currentPatient.atendimentosRealizadosLab[index];
+                            successModal.innerHTML = `
+                                <div class="modal-content" style="background: linear-gradient(135deg, rgba(27, 186, 255, 0.95), rgba(74, 184, 255, 0.9));">
+                                    <h3 style="color: white; margin-bottom: 20px; font-size: 2rem;">
+                                        <i class="fas fa-check-circle"></i> Exame Agendado!
+                                    </h3>
+                                    <div style="text-align: left; margin: 20px 0;">
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-flask"></i> Tipo:</strong> ${atendimento.tipo}
+                                        </p>
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-calendar-alt"></i> Data:</strong> 28/08/2025
+                                        </p>
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-clock"></i> Horário:</strong> 08:00
+                                        </p>
+                                        <p style="color: white; font-size: 1.2rem; margin: 10px 0;">
+                                            <strong><i class="fas fa-info-circle"></i> Observação:</strong> Jejum de 12 horas necessário
+                                        </p>
+                                    </div>
+                                    <button class="btn btn-secondary" onclick="fecharModalSucesso()" style="margin-top: 20px;">
+                                        CONTINUAR
+                                    </button>
+                                </div>
+                            `;
+                        }
 
                         document.body.appendChild(successModal);
 
@@ -1877,6 +2440,7 @@
                 }
             }, 400);
         }
+
 
         function fecharModalSucesso() {
             const successModal = document.querySelector('.modal');
